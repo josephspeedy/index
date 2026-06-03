@@ -3,82 +3,145 @@
 
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Les courses de Joseph Tringali</title>
 
 <style>
+
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0;
+    padding: 0;
+
     background-image: url("https://josephspeedy.github.io/index/images/stevictoire_claire.jpg");
     background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .menu {
     background-color: #333;
-    overflow: hidden;
+    padding: 0;
 }
 
-.menu a, .dropbtn {
+.dropbtn {
+    background-color: #333;
     color: white;
-    padding: 14px 16px;
-    text-decoration: none;
-    display: inline-block;
+    padding: 16px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover {
+    background-color: #555;
 }
 
 .dropdown {
-    display: inline-block;
     position: relative;
+    display: inline-block;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
+    z-index: 1;
 }
 
 .dropdown-content a {
     color: black;
     padding: 12px 16px;
-    display: block;
     text-decoration: none;
+    display: block;
 }
 
 .dropdown-content a:hover {
-    background-color: #ddd;
+    background-color: #f0f0f0;
 }
 
-.dropdown:hover .dropdown-content {
+.show {
     display: block;
 }
-</style>
 
+.contenu {
+    background-color: rgba(255,255,255,0.85);
+    margin: 30px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="menu">
 
+    <div class="dropdown">
 
-        <div class="dropdown">
-            <button
-                onclick="ouvrirMenu()"
-                class="dropbtn">
-                Résultats 
-            </button>
-          <div id="monMenu"
-              class="dropdown-content"
+        <button onclick="ouvrirMenu()" class="dropbtn">
+            Résultats ▼
+        </button>
+
+        <div id="menuResultats" class="dropdown-content">
+
             <a href="resultats/2026.html">2026</a>
             <a href="resultats/2025.html">2025</a>
-            <a href="resultats/2024.html">2024</a>
-            <a href="resultats/2023.html">2023</a>
+
         </div>
+
     </div>
+
 </div>
 
-<h1>Les résultats de Joseph Tringali</h1>
+<div class="contenu">
 
-<p>Choisissez une année dans le menu « Résultats ».</p>
+    <h1>Les courses de Joseph Tringali</h1>
+
+    <p>
+        Bienvenue sur mon site consacré à mes résultats de course à pied,
+        duathlon et triathlon.
+    </p>
+
+    <p>
+        Sélectionnez une année dans le menu « Résultats ».
+    </p>
+
+</div>
+
+<script>
+
+function ouvrirMenu() {
+    document.getElementById("menuResultats").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+
+    if (!event.target.matches('.dropbtn')) {
+
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+
+        for (var i = 0; i < dropdowns.length; i++) {
+
+            var openDropdown = dropdowns[i];
+
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+</script>
 
 </body>
-</html>https://josephspeedy.github.io/index/images/stevictoire_claire.jpg
+</html>
+
