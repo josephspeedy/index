@@ -1,1 +1,186 @@
 
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Résultats 1988 - Joseph Tringali</title>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+    background-image: url("https://josephspeedy.github.io/index/images/stevictoire_claire.jpg");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Sélecteur d'année */
+
+.resultats {
+    margin: 20px 30px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.resultats input {
+    width: 80px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.resultats button {
+    padding: 5px 12px;
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+/* Contenu */
+
+.contenu {
+    background-color: rgba(255,255,255,0.85);
+    margin: 30px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* Tableau */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: rgba(255,255,255,0.9);
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Sélection de l'année -->
+
+<div class="resultats">
+
+```
+<form onsubmit="ouvrirAnnee(); return false;">
+
+    <strong>Résultats :</strong>
+
+    <label for="annee">Année :</label>
+
+    <input
+        type="number"
+        id="annee"
+        name="annee"
+        min="1981"
+        max="2026"
+        value="1988"
+    >
+
+    <button type="submit">Valider</button>
+
+</form>
+```
+
+</div>
+
+<!-- Retour à l'accueil -->
+
+<div class="contenu">
+
+```
+<h1>Résultats 1988</h1>
+
+<p>
+    <a href="https://josephspeedy.github.io/index/index.html">
+        Retour à l'accueil
+    </a>
+</p>
+
+<table border="1">
+
+    <tr>
+        <th>Date</th>
+        <th>Course</th>
+        <th>Distance</th>
+        <th>Temps</th>
+        <th>Classement</th>
+        <th>Premier homme</th>
+        <th>Première femme</th>
+        <th>Classés</th>
+    </tr>
+
+    <tr>
+        <td>03/04/1988</td>
+        <td>Nice</td>
+        <td>42,20 km</td>
+        <td>03:31:58</td>
+        <td>307e</td>
+        <td>Lazare (02:17:48)</td>
+        <td>XXX XXX (xx:xx:xx)</td>
+        <td>611</td>
+    </tr>
+
+    <tr>
+        <td>10/04/1988</td>
+        <td>Crest</td>
+        <td>21,10 km</td>
+        <td>01:41:59</td>
+        <td>117e</td>
+        <td>Ricardi (01:12:45)</td>
+        <td>Riou Chantal (01:34:25)</td>
+        <td>305</td>
+    </tr>
+
+</table>
+```
+
+</div>
+
+<script>
+
+function ouvrirAnnee() {
+
+    let annee = document.getElementById("annee").value;
+
+    if (annee >= 1981 && annee <= 2026) {
+
+        window.location.href = annee + ".html";
+
+    } else {
+
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
