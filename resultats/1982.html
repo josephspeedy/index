@@ -75,10 +75,55 @@ h1 {
     text-align: center;
 }
 
+/* Choix de l'année */
+
+.resultats {
+    margin: 20px 30px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.resultats input {
+    width: 80px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.resultats button {
+    padding: 5px 12px;
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
 </style>
 </head>
 
 <body>
+
+<div class="resultats">
+
+    <form onsubmit="ouvrirAnnee(); return false;">
+
+        <strong>Résultats :</strong>
+
+        <label for="annee">Année :</label>
+
+        <input
+            type="number"
+            id="annee"
+            name="annee"
+            min="1981"
+            max="2026"
+            value="1982"
+        >
+
+        <button type="submit">Valider</button>
+
+    </form>
+
+</div>
 
 <h1>Résultats 1982</h1>
 
@@ -96,5 +141,28 @@ h1 {
     <th>Première femme</th>
     <th>Classés</th>
 </tr>
+
 </table>
+
+<script>
+
+function ouvrirAnnee() {
+
+    let annee = document.getElementById("annee").value;
+
+    if (annee >= 1981 && annee <= 2026) {
+
+        window.location.href = annee + ".html";
+
+    } else {
+
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+
+    }
+
+}
+
+</script>
+
 </body>
+</html>
