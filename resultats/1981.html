@@ -1,6 +1,7 @@
 
 
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -11,6 +12,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+
     background-image: url("https://josephspeedy.github.io/index/images/stevictoire_claire.jpg");
     background-size: cover;
     background-position: center;
@@ -75,10 +77,58 @@ h1 {
     text-align: center;
 }
 
+/* Choix de l'année */
+
+.resultats {
+    margin: 20px 30px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.resultats input {
+    width: 80px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.resultats button {
+    padding: 5px 12px;
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
 </style>
+
 </head>
 
 <body>
+
+<div class="resultats">
+
+```
+<form onsubmit="ouvrirAnnee(); return false;">
+
+    <strong>Résultats :</strong>
+
+    <label for="annee">Année :</label>
+
+    <input
+        type="number"
+        id="annee"
+        name="annee"
+        min="1981"
+        max="2026"
+        value="1981"
+    >
+
+    <button type="submit">Valider</button>
+
+</form>
+```
+
+</div>
 
 <h1>Résultats 1981</h1>
 
@@ -96,5 +146,29 @@ h1 {
     <th>Première femme</th>
     <th>Classés</th>
 </tr>
+
 </table>
+
+<script>
+
+function ouvrirAnnee() {
+
+    let annee = document.getElementById("annee").value;
+
+    if (annee >= 1981 && annee <= 2026) {
+
+        window.location.href = annee + ".html";
+
+    } else {
+
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+
+    }
+
+}
+
+</script>
+
 </body>
+</html>
+
