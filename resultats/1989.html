@@ -75,14 +75,61 @@ h1 {
     text-align: center;
 }
 
+.resultats {
+    margin: 20px 30px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.resultats input {
+    width: 80px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.resultats button {
+    padding: 5px 12px;
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
 </style>
 
+</head>
 
+<body>
+
+<div class="resultats">
+
+    <form onsubmit="ouvrirAnnee(); return false;">
+
+        <strong>Résultats :</strong>
+
+        <label for="annee">Année :</label>
+
+        <input
+            type="number"
+            id="annee"
+            name="annee"
+            min="1981"
+            max="2026"
+            value="1989"
+        >
+
+        <button type="submit">Valider</button>
+
+    </form>
+
+</div>
 
 <h1>Résultats 1989</h1>
+
 <p><a href="https://josephspeedy.github.io/index/index.html">Retour à l'accueil</a></p>
 
 <table border="1">
+
 <tr>
     <th>Date</th>
     <th>Course</th>
@@ -93,8 +140,8 @@ h1 {
     <th> Première femme</th>
     <th>Classés </th>
 </tr>
-    
-   <tr>
+
+<tr>
     <td>13/03/1989</td>
     <td>Ski de fond du Vercors</td>
     <td>55 km</td>
@@ -115,5 +162,28 @@ h1 {
     <td>XXXX (xx:xx:xx)</td>
     <td>xxx</td>
 </tr>
+
 </table>
+
+<script>
+
+function ouvrirAnnee() {
+
+    let annee = document.getElementById("annee").value;
+
+    if (annee >= 1981 && annee <= 2026) {
+
+        window.location.href = annee + ".html";
+
+    } else {
+
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+
+    }
+
+}
+
+</script>
+
 </body>
+</html>
