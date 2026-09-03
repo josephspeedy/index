@@ -2,12 +2,8 @@
 <!DOCTYPE html>
 
 <html lang="fr">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Résultats 1988 - Joseph Tringali</title>
 
 <style>
 
@@ -17,13 +13,70 @@ body {
     padding: 0;
 
     background-image: url("https://josephspeedy.github.io/index/images/stevictoire_claire.jpg");
-    background-repeat: no-repeat;
-    background-position: top center;
     background-size: cover;
+    background-position: center;
     background-attachment: fixed;
 }
 
-/* Sélecteur d'année */
+.menu {
+    background-color: #333;
+    padding: 0;
+}
+
+.dropbtn {
+    background-color: #333;
+    color: white;
+    padding: 16px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover {
+    background-color: #555;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f0f0f0;
+}
+
+.show {
+    display: block;
+}
+
+.contenu {
+    background-color: rgba(255,255,255,0.85);
+    margin: 30px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* Ajout du choix de l'année */
 
 .resultats {
     margin: 20px 30px;
@@ -45,44 +98,13 @@ body {
     cursor: pointer;
 }
 
-/* Contenu */
-
-.contenu {
-    background-color: rgba(255,255,255,0.85);
-    margin: 30px;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-h1 {
-    text-align: center;
-}
-
-/* Tableau */
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    background-color: rgba(255,255,255,0.9);
-}
-
-th, td {
-    padding: 8px;
-    text-align: center;
-}
-
-th {
-    background-color: #333;
-    color: white;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<!-- Sélection de l'année -->
+<!-- Choix de l'année -->
 
 <div class="resultats">
 
@@ -109,58 +131,45 @@ th {
 
 </div>
 
-<!-- Retour à l'accueil -->
-
-<div class="contenu">
-
-```
 <h1>Résultats 1988</h1>
 
-<p>
-    <a href="https://josephspeedy.github.io/index/index.html">
-        Retour à l'accueil
-    </a>
-</p>
+<p><a href="https://josephspeedy.github.io/index/index.html">Retour à l'accueil</a></p>
 
 <table border="1">
+<tr>
+    <th>Date</th>
+    <th>Course</th>
+    <th>Distance</th>
+    <th>Temps</th>
+    <th>Classement</th>
+    <th> Premier homme</th>
+    <th> Première femme</th>
+    <th>Classés </th>
+</tr>
 
-    <tr>
-        <th>Date</th>
-        <th>Course</th>
-        <th>Distance</th>
-        <th>Temps</th>
-        <th>Classement</th>
-        <th>Premier homme</th>
-        <th>Première femme</th>
-        <th>Classés</th>
-    </tr>
+<tr>
+    <td>03/04/1988</td>
+    <td>Nice</td>
+    <td>42,20 km</td>
+    <td>03:31:58</td>
+    <td>307e</td>
+    <td>Lazare (02:17:48)</td>
+    <td>XXX XXX (xx:xx:xx)</td>
+    <td>611</td>
+</tr>
 
-    <tr>
-        <td>03/04/1988</td>
-        <td>Nice</td>
-        <td>42,20 km</td>
-        <td>03:31:58</td>
-        <td>307e</td>
-        <td>Lazare (02:17:48)</td>
-        <td>XXX XXX (xx:xx:xx)</td>
-        <td>611</td>
-    </tr>
-
-    <tr>
-        <td>10/04/1988</td>
-        <td>Crest</td>
-        <td>21,10 km</td>
-        <td>01:41:59</td>
-        <td>117e</td>
-        <td>Ricardi (01:12:45)</td>
-        <td>Riou Chantal (01:34:25)</td>
-        <td>305</td>
-    </tr>
+<tr>
+    <td>10/04/1988</td>
+    <td>Crest</td>
+    <td>21,10 km</td>
+    <td>01:41:59</td>
+    <td>117e</td>
+    <td>Ricardi (01:12:45)</td>
+    <td>Riou Chantal (01:34:25)</td>
+    <td>305</td>
+</tr>
 
 </table>
-```
-
-</div>
 
 <script>
 
