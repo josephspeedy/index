@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Les courses de Joseph Tringali</title>
+
+<style>
+
+body {
+    background-image: url("images/stevictoire_claire.jpg");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+.contenu {
+    background-color: rgba(255,255,255,0.05);
+    margin: 30px auto;
+    padding: 20px;
+    width: 70%;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+.resultats {
+    margin: 20px 30px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.resultats input {
+    width: 80px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.resultats button {
+    padding: 5px 12px;
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+/* Recherche */
+
+.recherche {
+    margin: 20px 30px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.recherche-lien {
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.zone-recherche {
+    display: none;
+    margin-top: 15px;
+}
+
+.zone-recherche input {
+    width: 250px;
+    max-width: 70%;
+    padding: 7px;
+    font-size: 16px;
+}
+
+.zone-recherche button {
+    padding: 7px 12px;
+    font-size: 16px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+#resultatsRecherche {
+    margin-top: 20px;
+}
+
+.resultat-trouve {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(255,255,255,0.35);
+    border-radius: 6px;
+}
+
+.resultat-trouve a {
+    font-weight: bold;
+    color: inherit;
+}
+
+.recherche-attente {
+    font-style: italic;
+}
+
+.recherche-erreur {
+    color: darkred;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="resultats">
+
+```
+<form onsubmit="ouvrirAnnee(); return false;">
+
+    <strong>Résultats :</strong>
+
+    <label for="annee">Année :</label>
+
+    <input
+        type="number"
+        id="annee"
+        name="annee"
+        min="1981"
+        max="2026"
+        value="2026"
+    >
+
+    <button type="submit">Valider</button>
+
+</form>
+```
+
+</div>
+
+<!-- RECHERCHE -->
+
+<div class="recherche">
+
+```
+<a class="recherche-lien" onclick="afficherRecherche()">
+    🔎 Recherche sur le site
+</a>
+
+<div class="zone-recherche" id="zoneRecherche">
+
+    <form onsubmit="lancerRecherche(); return false;">
+
+        <input
+            type="text"
+            id="champRecherche"
+            placeholder="Nom, course, ville, année..."
+            autocomplete="off"
+        >
+
+        <button type="submit">Rechercher</button>
+
+    </form>
+
+    <div id="resultatsRecherche"></div>
+
+</div>
+```
+
+</div>
+
+<div class="contenu">
+
+```
+<h1>Les courses de Joseph Tringali</h1>
+
+<p>
+    Mes résultats de course à pied,
+    duathlon et triathlon.
+</p>
+
+<p>
+    Entrez une année dans le champ « Résultats ».
+</p>
+```
+
+</div>
+
+<script>
+
+/* -----------------------------------------
+   OUVERTURE D'UNE ANNÉE
+   ----------------------------------------- */
+
+function ouvrirAnnee() {
+
+    let annee = document.getElementById("annee").value;
+
+    if (annee >= 1981 && annee <= 2026) {
+
+        window.location.href = "resultats/" + annee + ".html";
+
+    } else {
+
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+
+    }
+
+}
+
+
+/* -----------------------------------------
+   AFFICHER LA ZONE DE RECHERCHE
+   ----------------------------------------- */
+
+function afficherRecherche() {
+
+    let zone = document.getElementById("zoneRecherche");
+
+    if (zone.style.display === "none" || zone.style.display === "") {
+
+        zone.style.display = "block";
+
+        document.getElementById("champRecherche").focus();
+
+    } else {
+
+        zone.style.display = "none";
+
+    }
+
+}
+
+
+/* -----------------------------------------
+   RECHERCHE DANS LES PAGES
+   ----------------------------------------- */
+
+async function lancerRecherche() {
+
+    let recherche = document
+        .getElementById("champRecherche")
+        .value
+        .trim();
+
+    let affichage = document.getElementById("resultatsRecherche");
+
+    if (recherche.length < 2) {
+
+        affichage.innerHTML =
+            "<p>Veuillez entrer au moins 2 caractères.</p>";
+
+        return;
+
+    }
+
+    affichage.innerHTML =
+        "<p class='recherche-attente'>Recherche en cours...</p>";
+
+    let texteRecherche = recherche.toLowerCase();
+
+    let resultats = [];
+
+    /*
+       Recherche dans toutes les années
+       disponibles sur le site.
+    */
+
+    for (let annee = 1981; annee <= 2026; annee++) {
+
+        try {
+
+            let reponse = await fetch(
+                "resultats/" + annee + ".html"
+            );
+
+            if (!reponse.ok) {
+                continue;
+            }
+
+            let html = await reponse.text();
+
+            /*
+               Conversion du HTML en texte
+               pour rechercher dans le contenu.
+            */
+
+            let documentPage =
+                new DOMParser().parseFromString(
+                    html,
+                    "text/html"
+                );
+
+            let texte =
+                documentPage.body.innerText;
+
+            if (
+                texte
+                .toLowerCase()
+                .includes(texteRecherche)
+            ) {
+
+                resultats.push({
+
+                    annee: annee,
+
+                    url:
+                        "resultats/" +
+                        annee +
+                        ".html"
+
+                });
+
+            }
+
+        } catch (erreur) {
+
+            /*
+               Si une année n'existe pas ou
+               ne peut pas être chargée,
+               on passe simplement à la suivante.
+            */
+
+        }
+
+    }
+
+
+    /* -----------------------------------------
+       AFFICHAGE DES RESULTATS
+       ----------------------------------------- */
+
+    if (resultats.length === 0) {
+
+        affichage.innerHTML =
+            "<p>Aucun résultat trouvé pour « " +
+            echapperHTML(recherche) +
+            " ».</p>";
+
+        return;
+
+    }
+
+
+    let htmlResultat =
+
+        "<p><strong>" +
+        resultats.length +
+        " page(s) trouvée(s) pour « " +
+        echapperHTML(recherche) +
+        " » :</strong></p>";
+
+
+    resultats.forEach(function(resultat) {
+
+        htmlResultat +=
+
+            "<div class='resultat-trouve'>" +
+
+            "<a href='" +
+            resultat.url +
+            "'>" +
+
+            "Résultats " +
+            resultat.annee +
+
+            "</a>" +
+
+            "<br>" +
+
+            "Le terme recherché apparaît dans la page." +
+
+            "</div>";
+
+    });
+
+
+    affichage.innerHTML = htmlResultat;
+
+}
+
+
+/* -----------------------------------------
+   PROTECTION DU TEXTE AFFICHÉ
+   ----------------------------------------- */
+
+function echapperHTML(texte) {
+
+    return texte
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
