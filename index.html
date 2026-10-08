@@ -3,165 +3,231 @@
 <html lang="fr">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+   content="width=device-width, initial-scale=1.0">
 
 <title>Les courses de Joseph Tringali</title>
 
 <style>
 
 body {
-    background-image: url("images/stevictoire_claire.jpg");
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: cover;
+
     margin: 0;
-    padding: 0;
+
+    font-family: Arial, sans-serif;
+
+    background-image:
+        url("images/stevictoire_claire.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-attachment: fixed;
+
+    color: #111;
+
 }
 
 .contenu {
-    background-color: rgba(255,255,255,0.05);
+
+    max-width: 1100px;
+
     margin: 30px auto;
-    padding: 20px;
-    width: 70%;
+
+    padding: 25px;
+
+    background-color: rgba(255,255,255,0.05);
+
     border-radius: 10px;
-    box-shadow: none;
+
 }
 
 h1 {
+
     text-align: center;
+
+    margin-bottom: 30px;
+
 }
 
-.resultats {
-    margin: 20px 30px;
-    padding: 10px;
-    font-size: 16px;
+h2 {
+
+    margin-top: 30px;
+
 }
 
-.resultats input {
+.navigation {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+}
+
+.navigation input {
+
     width: 80px;
-    padding: 5px;
+
+    padding: 7px;
+
     font-size: 16px;
-    margin-left: 8px;
+
+    text-align: center;
+
 }
 
-.resultats button {
-    padding: 5px 12px;
+.navigation button {
+
+    padding: 7px 15px;
+
     font-size: 16px;
-    margin-left: 8px;
+
     cursor: pointer;
+
 }
-
-
-/* -----------------------------------------
-   RECHERCHE
-   ----------------------------------------- */
 
 .recherche {
-    margin: 20px 30px;
-    padding: 10px;
-    font-size: 16px;
+
+    text-align: center;
+
+    margin: 20px 0;
+
 }
 
 .recherche-lien {
-    color: inherit;
-    text-decoration: underline;
+
+    font-size: 17px;
+
+    text-decoration: none;
+
     cursor: pointer;
-    font-weight: bold;
+
 }
 
-.zone-recherche {
+#zoneRecherche {
+
     display: none;
+
     margin-top: 15px;
+
 }
 
-.zone-recherche input {
-    width: 250px;
-    max-width: 70%;
-    padding: 7px;
+#champRecherche {
+
+    width: 70%;
+
+    max-width: 500px;
+
+    padding: 9px;
+
     font-size: 16px;
+
 }
 
-.zone-recherche button {
-    padding: 7px 12px;
+#zoneRecherche button {
+
+    padding: 9px 15px;
+
     font-size: 16px;
-    margin-left: 5px;
+
     cursor: pointer;
+
 }
 
 #resultatsRecherche {
+
     margin-top: 20px;
+
+    text-align: left;
+
 }
 
 .resultat-trouve {
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: rgba(255,255,255,0.35);
+
+    margin: 15px 0;
+
+    padding: 12px;
+
+    background-color: rgba(255,255,255,0.20);
+
     border-radius: 6px;
+
 }
 
 .resultat-trouve a {
-    font-weight: bold;
-    color: inherit;
+
+    font-size: 18px;
+
 }
 
 .ligne-resultat {
+
     margin-top: 8px;
+
     padding: 8px;
+
     background-color: rgba(255,255,255,0.25);
+
     border-radius: 5px;
+
 }
 
 .recherche-attente {
-    font-style: italic;
-}
 
-.recherche-erreur {
-    color: darkred;
+    font-style: italic;
+
 }
 
 </style>
 
 </head>
 
-
 <body>
 
+<div class="contenu">
 
-<!-- -----------------------------------------
-     CHOIX DE L'ANNEE
-     ----------------------------------------- -->
+<h1>
+Les courses de Joseph Tringali
+</h1>
 
-<div class="resultats">
+<!-- CHOIX D'UNE ANNEE -->
 
-<form onsubmit="ouvrirAnnee(); return false;">
+<div class="navigation">
 
-    <strong>Résultats :</strong>
+```
+<label for="annee">
+    Choix de l'année :
+</label>
 
-    <label for="annee">Année :</label>
+<input
+    type="number"
+    id="annee"
+    min="1981"
+    max="2026"
+    value="2026"
+    onkeydown="
+        if (event.key === 'Enter') {
+            ouvrirAnnee();
+        }
+    "
+>
 
-    <input
-        type="number"
-        id="annee"
-        name="annee"
-        min="1981"
-        max="2026"
-        value="2026"
-    >
-
-    <button type="submit">Valider</button>
-
-</form>
+<button onclick="ouvrirAnnee()">
+    Valider
+</button>
+```
 
 </div>
 
-
-<!-- -----------------------------------------
-     RECHERCHE
-     ----------------------------------------- -->
+<!-- RECHERCHE -->
 
 <div class="recherche">
 
+```
 <a
     href="#"
     class="recherche-lien"
@@ -171,7 +237,7 @@ h1 {
 </a>
 
 
-<div class="zone-recherche" id="zoneRecherche">
+<div id="zoneRecherche">
 
     <form onsubmit="lancerRecherche(); return false;">
 
@@ -188,38 +254,30 @@ h1 {
 
     </form>
 
+
     <div id="resultatsRecherche"></div>
 
 </div>
+```
 
 </div>
 
-
-<!-- -----------------------------------------
-     CONTENU PRINCIPAL
-     ----------------------------------------- -->
-
-<div class="contenu">
-
-<h1>Les courses de Joseph Tringali</h1>
+<h2>
+Bienvenue sur le site des résultats de Joseph Tringali
+</h2>
 
 <p>
-    Mes résultats de course à pied,
-    duathlon et triathlon.
-</p>
-
-<p>
-    Entrez une année dans le champ « Résultats ».
+Vous pouvez choisir une année ci-dessus pour consulter
+les résultats correspondants.
 </p>
 
 </div>
-
 
 <script>
 
 
 /* -----------------------------------------
-   OUVERTURE D'UNE ANNEE
+   OUVRIR UNE ANNEE
    ----------------------------------------- */
 
 function ouvrirAnnee() {
@@ -278,155 +336,42 @@ function afficherRecherche() {
 
 
 /* -----------------------------------------
-   RECHERCHE DANS LES PAGES
+   RECHERCHE DANS TOUTES LES ANNEES
    ----------------------------------------- */
 
 async function lancerRecherche() {
 
-    const recherche =
-        document.getElementById("champRecherche").value.trim();
+    let recherche =
+        document
+            .getElementById("champRecherche")
+            .value
+            .trim();
 
-    const affichage =
+
+    let affichage =
         document.getElementById("resultatsRecherche");
 
+
     if (recherche.length < 2) {
+
         affichage.innerHTML =
             "<p>Veuillez entrer au moins 2 caractères.</p>";
+
         return;
+
     }
+
 
     affichage.innerHTML =
         "<p class='recherche-attente'>Recherche en cours...</p>";
 
-    const mot =
+
+    let mot =
         recherche.toLowerCase();
+
 
     let resultats = [];
 
-    for (let annee = 1981; annee <= 2026; annee++) {
-
-        try {
-
-            const reponse =
-                await fetch("resultats/" + annee + ".html");
-
-            if (!reponse.ok) {
-                continue;
-            }
-
-            const texte =
-                await reponse.text();
-
-            const page =
-                new DOMParser().parseFromString(
-                    texte,
-                    "text/html"
-                );
-
-            const lignes =
-                page.querySelectorAll("tr");
-
-            lignes.forEach(function(ligne) {
-
-                const cellules =
-                    ligne.querySelectorAll("td");
-
-                if (cellules.length === 0) {
-                    return;
-                }
-
-                const contenu =
-                    ligne.textContent.trim();
-
-                if (
-                    contenu.toLowerCase().includes(mot)
-                ) {
-
-                    resultats.push({
-                        annee: annee,
-                        date: cellules[0].textContent.trim(),
-                        course: cellules[1].textContent.trim(),
-                        distance: cellules[2].textContent.trim(),
-                        temps: cellules[3].textContent.trim(),
-                        classement: cellules[4].textContent.trim()
-                    });
-
-                }
-
-            });
-
-        } catch (e) {
-
-            continue;
-
-        }
-
-    }
-
-
-    if (resultats.length === 0) {
-
-        affichage.innerHTML =
-            "<p>Aucun résultat trouvé pour « " +
-            echapperHTML(recherche) +
-            " ».</p>";
-
-        return;
-    }
-
-
-    let sortie =
-        "<p><strong>" +
-        resultats.length +
-        " résultat(s) trouvé(s) :</strong></p>";
-
-
-    resultats.forEach(function(r) {
-
-        sortie +=
-            "<div class='resultat-trouve'>" +
-
-            "<a href='resultats/" +
-            r.annee +
-            ".html' target='_blank'>" +
-
-            "<strong>" +
-            r.annee +
-            "</strong>" +
-
-            "</a>" +
-
-            "<div class='ligne-resultat'>" +
-
-            echapperHTML(r.date) +
-            " — " +
-
-            echapperHTML(r.course) +
-            " — " +
-
-            echapperHTML(r.distance) +
-            " — " +
-
-            echapperHTML(r.temps) +
-            " — " +
-
-            echapperHTML(r.classement) +
-
-            "</div>" +
-
-            "</div>";
-
-    });
-
-
-    affichage.innerHTML = sortie;
-
-}
-
-
-    /* -----------------------------------------
-       RECHERCHE DANS TOUTES LES ANNEES
-       ----------------------------------------- */
 
     for (
         let annee = 1981;
@@ -445,7 +390,9 @@ async function lancerRecherche() {
 
 
             if (!reponse.ok) {
+
                 continue;
+
             }
 
 
@@ -461,7 +408,9 @@ async function lancerRecherche() {
 
 
             let lignes =
-                page.querySelectorAll("table tr");
+                page.querySelectorAll(
+                    "table tr"
+                );
 
 
             lignes.forEach(function(ligne) {
@@ -471,52 +420,63 @@ async function lancerRecherche() {
 
 
                 /*
-                   On ignore l'en-tête du tableau.
+                   La première ligne du tableau
+                   contient les titres <th>.
+                   On l'ignore.
                 */
 
                 if (cellules.length < 5) {
+
                     return;
+
                 }
 
 
-                /*
-                   Texte complet de la ligne.
-                */
-
                 let texteLigne =
-                    ligne.innerText.trim();
+                    ligne.textContent.trim();
 
-
-                /*
-                   Recherche dans toute la ligne :
-                   date, course, distance, temps,
-                   classement, etc.
-                */
 
                 if (
                     texteLigne
                         .toLowerCase()
-                        .includes(texteRecherche)
+                        .includes(mot)
                 ) {
+
 
                     resultats.push({
 
                         annee: annee,
 
+
                         date:
-                            cellules[0].innerText.trim(),
+                            cellules[0]
+                                .textContent
+                                .trim(),
+
 
                         course:
-                            cellules[1].innerText.trim(),
+                            cellules[1]
+                                .textContent
+                                .trim(),
+
 
                         distance:
-                            cellules[2].innerText.trim(),
+                            cellules[2]
+                                .textContent
+                                .trim(),
+
 
                         temps:
-                            cellules[3].innerText.trim(),
+                            cellules[3]
+                                .textContent
+                                .trim(),
+
 
                         classement:
-                            cellules[4].innerText.trim(),
+                            cellules[4]
+                                .textContent
+                                .trim(),
+
 
                         url:
                             "resultats/" +
@@ -533,8 +493,12 @@ async function lancerRecherche() {
         } catch (erreur) {
 
             /*
-               Une année absente est ignorée.
+               Si une année ne peut pas être
+               chargée, on continue avec
+               l'année suivante.
             */
+
+            continue;
 
         }
 
@@ -548,8 +512,11 @@ async function lancerRecherche() {
     if (resultats.length === 0) {
 
         affichage.innerHTML =
+
             "<p>Aucun résultat trouvé pour « " +
+
             echapperHTML(recherche) +
+
             " ».</p>";
 
         return;
@@ -558,140 +525,129 @@ async function lancerRecherche() {
 
 
     /* -----------------------------------------
-       AFFICHAGE
+       AFFICHAGE DES RESULTATS
        ----------------------------------------- */
 
     let htmlResultat =
 
         "<p><strong>" +
+
         resultats.length +
+
         " résultat(s) trouvé(s) pour « " +
+
         echapperHTML(recherche) +
+
         " » :</strong></p>";
 
 
     resultats.forEach(function(resultat) {
 
+
         htmlResultat +=
 
-            "<div class='resultat-trouve'>" +
+            "<div class='resultat-trouve'>"
+
+
+            +
 
             "<a href='" +
+
             resultat.url +
-            "' target='_blank'>" +
+
+            "' target='_blank'>"
+
+
+            +
 
             "<strong>" +
+
             resultat.annee +
-            "</strong>" +
 
-            "</a>" +
+            "</strong>"
 
-            "<div class='ligne-resultat'>" +
+
+            +
+
+            "</a>"
+
+
+            +
+
+            "<div class='ligne-resultat'>"
+
+
+            +
 
             "<strong>Date :</strong> " +
-            echapperHTML(resultat.date) +
 
-            "<br>" +
+            echapperHTML(
+                resultat.date
+            )
+
+
+            +
+
+            "<br>"
+
+
+            +
 
             "<strong>Course :</strong> " +
-            echapperHTML(resultat.course) +
 
-            "<br>" +
+            echapperHTML(
+                resultat.course
+            )
+
+
+            +
+
+            "<br>"
+
+
+            +
 
             "<strong>Distance :</strong> " +
-            echapperHTML(resultat.distance) +
 
-            "<br>" +
+            echapperHTML(
+                resultat.distance
+            )
+
+
+            +
+
+            "<br>"
+
+
+            +
 
             "<strong>Temps :</strong> " +
-            echapperHTML(resultat.temps) +
 
-            "<br>" +
+            echapperHTML(
+                resultat.temps
+            )
+
+
+            +
+
+            "<br>"
+
+
+            +
 
             "<strong>Classement :</strong> " +
-            echapperHTML(resultat.classement) +
 
-            "</div>" +
-
-            "</div>";
-
-    });
+            echapperHTML(
+                resultat.classement
+            )
 
 
-    affichage.innerHTML =
-        htmlResultat;
+            +
 
-}
-    /* -----------------------------------------
-       AUCUN RESULTAT
-       ----------------------------------------- */
-
-    if (resultats.length === 0) {
-
-        affichage.innerHTML =
-            "<p>Aucun résultat trouvé pour « " +
-            echapperHTML(recherche) +
-            " ».</p>";
-
-        return;
-
-    }
+            "</div>"
 
 
-    /* -----------------------------------------
-       AFFICHAGE
-       ----------------------------------------- */
-
-    let nombreLignes = 0;
-
-
-    resultats.forEach(function(resultat) {
-
-        nombreLignes +=
-            resultat.lignes.length;
-
-    });
-
-
-    let htmlResultat =
-
-        "<p><strong>" +
-        nombreLignes +
-        " résultat(s) trouvé(s) pour « " +
-        echapperHTML(recherche) +
-        " » :</strong></p>";
-
-
-    resultats.forEach(function(resultat) {
-
-        htmlResultat +=
-
-            "<div class='resultat-trouve'>" +
-
-            "<a href='" +
-            resultat.url +
-            "' target='_blank'>" +
-
-            "Résultats " +
-            resultat.annee +
-
-            "</a>";
-
-
-        resultat.lignes.forEach(function(ligne) {
-
-            htmlResultat +=
-
-                "<div class='ligne-resultat'>" +
-
-                echapperHTML(ligne) +
-
-                "</div>";
-
-        });
-
-
-        htmlResultat +=
+            +
 
             "</div>";
 
@@ -712,21 +668,38 @@ function echapperHTML(texte) {
 
     return texte
 
-        .replace(/&/g, "&amp;")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-        .replace(/</g, "&lt;")
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-        .replace(/>/g, "&gt;")
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-        .replace(/"/g, "&quot;")
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-        .replace(/'/g, "&#039;");
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
-</script>
 
+</script>
 
 </body>
 
 </html>
+
+
