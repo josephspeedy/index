@@ -314,9 +314,9 @@ async function lancerRecherche() {
     let resultats = [];
 
 
-    /*
-       Recherche dans toutes les années.
-    */
+    /* -----------------------------------------
+       RECHERCHE DANS TOUTES LES ANNEES
+       ----------------------------------------- */
 
     for (
         let annee = 1981;
@@ -335,9 +335,7 @@ async function lancerRecherche() {
 
 
             if (!reponse.ok) {
-
                 continue;
-
             }
 
 
@@ -352,66 +350,80 @@ async function lancerRecherche() {
                 );
 
 
-            /*
-               Recherche dans les lignes de tableau.
-            */
-
             let lignes =
-                page.querySelectorAll("tr");
-
-
-            let lignesTrouvees = [];
+                page.querySelectorAll("table tr");
 
 
             lignes.forEach(function(ligne) {
 
-                let texte =
+                let cellules =
+                    ligne.querySelectorAll("td");
+
+
+                /*
+                   On ignore l'en-tête du tableau.
+                */
+
+                if (cellules.length < 5) {
+                    return;
+                }
+
+
+                /*
+                   Texte complet de la ligne.
+                */
+
+                let texteLigne =
                     ligne.innerText.trim();
 
 
+                /*
+                   Recherche dans toute la ligne :
+                   date, course, distance, temps,
+                   classement, etc.
+                */
+
                 if (
-                    texte &&
-                    texte
+                    texteLigne
                         .toLowerCase()
                         .includes(texteRecherche)
                 ) {
 
-                    lignesTrouvees.push(texte);
+                    resultats.push({
+
+                        annee: annee,
+
+                        date:
+                            cellules[0].innerText.trim(),
+
+                        course:
+                            cellules[1].innerText.trim(),
+
+                        distance:
+                            cellules[2].innerText.trim(),
+
+                        temps:
+                            cellules[3].innerText.trim(),
+
+                        classement:
+                            cellules[4].innerText.trim(),
+
+                        url:
+                            "resultats/" +
+                            annee +
+                            ".html"
+
+                    });
 
                 }
 
             });
 
 
-            /*
-               Si aucune ligne de tableau n'est trouvée,
-               on vérifie quand même toute la page.
-            */
-
-            if (lignesTrouvees.length > 0) {
-
-                resultats.push({
-
-                    annee: annee,
-
-                    url:
-                        "resultats/" +
-                        annee +
-                        ".html",
-
-                    lignes:
-                        lignesTrouvees
-
-                });
-
-            }
-
-
         } catch (erreur) {
 
             /*
-               Une page absente ou inaccessible
-               est simplement ignorée.
+               Une année absente est ignorée.
             */
 
         }
@@ -419,6 +431,87 @@ async function lancerRecherche() {
     }
 
 
+    /* -----------------------------------------
+       AUCUN RESULTAT
+       ----------------------------------------- */
+
+    if (resultats.length === 0) {
+
+        affichage.innerHTML =
+            "<p>Aucun résultat trouvé pour « " +
+            echapperHTML(recherche) +
+            " ».</p>";
+
+        return;
+
+    }
+
+
+    /* -----------------------------------------
+       AFFICHAGE
+       ----------------------------------------- */
+
+    let htmlResultat =
+
+        "<p><strong>" +
+        resultats.length +
+        " résultat(s) trouvé(s) pour « " +
+        echapperHTML(recherche) +
+        " » :</strong></p>";
+
+
+    resultats.forEach(function(resultat) {
+
+        htmlResultat +=
+
+            "<div class='resultat-trouve'>" +
+
+            "<a href='" +
+            resultat.url +
+            "' target='_blank'>" +
+
+            "<strong>" +
+            resultat.annee +
+            "</strong>" +
+
+            "</a>" +
+
+            "<div class='ligne-resultat'>" +
+
+            "<strong>Date :</strong> " +
+            echapperHTML(resultat.date) +
+
+            "<br>" +
+
+            "<strong>Course :</strong> " +
+            echapperHTML(resultat.course) +
+
+            "<br>" +
+
+            "<strong>Distance :</strong> " +
+            echapperHTML(resultat.distance) +
+
+            "<br>" +
+
+            "<strong>Temps :</strong> " +
+            echapperHTML(resultat.temps) +
+
+            "<br>" +
+
+            "<strong>Classement :</strong> " +
+            echapperHTML(resultat.classement) +
+
+            "</div>" +
+
+            "</div>";
+
+    });
+
+
+    affichage.innerHTML =
+        htmlResultat;
+
+}
     /* -----------------------------------------
        AUCUN RESULTAT
        ----------------------------------------- */
