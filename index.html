@@ -52,7 +52,10 @@ h1 {
     cursor: pointer;
 }
 
-/* Recherche */
+
+/* -----------------------------------------
+   RECHERCHE
+   ----------------------------------------- */
 
 .recherche {
     margin: 20px 30px;
@@ -97,16 +100,16 @@ h1 {
     border-radius: 6px;
 }
 
-    .ligne-resultat {
+.resultat-trouve a {
+    font-weight: bold;
+    color: inherit;
+}
+
+.ligne-resultat {
     margin-top: 8px;
     padding: 8px;
     background-color: rgba(255,255,255,0.25);
     border-radius: 5px;
-}
-
-.resultat-trouve a {
-    font-weight: bold;
-    color: inherit;
 }
 
 .recherche-attente {
@@ -121,10 +124,15 @@ h1 {
 
 </head>
 
+
 <body>
 
-<div class="resultats">
 
+<!-- -----------------------------------------
+     CHOIX DE L'ANNEE
+     ----------------------------------------- -->
+
+<div class="resultats">
 
 <form onsubmit="ouvrirAnnee(); return false;">
 
@@ -145,17 +153,23 @@ h1 {
 
 </form>
 
-
 </div>
 
-<!-- RECHERCHE -->
+
+<!-- -----------------------------------------
+     RECHERCHE
+     ----------------------------------------- -->
 
 <div class="recherche">
 
-
-<a class="recherche-lien" onclick="afficherRecherche()">
+<a
+    href="#"
+    class="recherche-lien"
+    onclick="afficherRecherche(); return false;"
+>
     🔎 Recherche sur le site
 </a>
+
 
 <div class="zone-recherche" id="zoneRecherche">
 
@@ -168,7 +182,9 @@ h1 {
             autocomplete="off"
         >
 
-        <button type="submit">Rechercher</button>
+        <button type="submit">
+            Rechercher
+        </button>
 
     </form>
 
@@ -176,11 +192,14 @@ h1 {
 
 </div>
 
-
 </div>
 
-<div class="contenu">
 
+<!-- -----------------------------------------
+     CONTENU PRINCIPAL
+     ----------------------------------------- -->
+
+<div class="contenu">
 
 <h1>Les courses de Joseph Tringali</h1>
 
@@ -193,26 +212,35 @@ h1 {
     Entrez une année dans le champ « Résultats ».
 </p>
 
-
 </div>
+
 
 <script>
 
+
 /* -----------------------------------------
-   OUVERTURE D'UNE ANNÉE
+   OUVERTURE D'UNE ANNEE
    ----------------------------------------- */
 
 function ouvrirAnnee() {
 
-    let annee = document.getElementById("annee").value;
+    let annee =
+        document.getElementById("annee").value;
+
+    annee = parseInt(annee, 10);
 
     if (annee >= 1981 && annee <= 2026) {
 
-        window.location.href = "resultats/" + annee + ".html";
+        window.open(
+            "resultats/" + annee + ".html",
+            "_blank"
+        );
 
     } else {
 
-        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+        alert(
+            "Veuillez entrer une année valide entre 1981 et 2026."
+        );
 
     }
 
@@ -220,182 +248,179 @@ function ouvrirAnnee() {
 
 
 /* -----------------------------------------
-   AFFICHER LA ZONE DE RECHERCHE
+   AFFICHER / MASQUER LA RECHERCHE
    ----------------------------------------- */
 
 function afficherRecherche() {
 
-    let zone = document.getElementById("zoneRecherche");
+    let zone =
+        document.getElementById("zoneRecherche");
 
-    if (zone.style.display === "none" || zone.style.display === "") {
+    if (zone.style.display === "block") {
 
-        zone.style.display = "block";
-
-        document.getElementById("champRecherche").focus();
+        zone.style.display = "none";
 
     } else {
 
-        zone.style.display = "none";
+        zone.style.display = "block";
+
+        setTimeout(function() {
+
+            document
+                .getElementById("champRecherche")
+                .focus();
+
+        }, 50);
 
     }
 
 }
+
+
 /* -----------------------------------------
    RECHERCHE DANS LES PAGES
    ----------------------------------------- */
 
 async function lancerRecherche() {
 
-```
-let recherche = document
-    .getElementById("champRecherche")
-    .value
-    .trim();
+    let champ =
+        document.getElementById("champRecherche");
 
-let affichage = document.getElementById("resultatsRecherche");
+    let affichage =
+        document.getElementById("resultatsRecherche");
 
-if (recherche.length < 2) {
+    let recherche =
+        champ.value.trim();
+
+
+    if (recherche.length < 2) {
+
+        affichage.innerHTML =
+            "<p>Veuillez entrer au moins 2 caractères.</p>";
+
+        return;
+
+    }
+
 
     affichage.innerHTML =
-        "<p>Veuillez entrer au moins 2 caractères.</p>";
+        "<p class='recherche-attente'>Recherche en cours...</p>";
 
-    return;
-}
 
-affichage.innerHTML =
-    "<p class='recherche-attente'>Recherche en cours...</p>";
+    let texteRecherche =
+        recherche.toLowerCase();
 
-let texteRecherche = recherche.toLowerCase();
 
-let total = 0;
+    let resultats = [];
 
-let htmlResultat = "";
 
-for (let annee = 1981; annee <= 2026; annee++) {
+    /*
+       Recherche dans toutes les années.
+    */
 
-    try {
+    for (
+        let annee = 1981;
+        annee <= 2026;
+        annee++
+    ) {
 
-        let reponse = await fetch(
-            "resultats/" + annee + ".html"
-        );
+        try {
 
-        if (!reponse.ok) {
-            continue;
-        }
+            let reponse =
+                await fetch(
+                    "resultats/" +
+                    annee +
+                    ".html"
+                );
 
-        let html = await reponse.text();
 
-        let page = new DOMParser().parseFromString(
-            html,
-            "text/html"
-        );
+            if (!reponse.ok) {
 
-        /*
-         * Recherche dans les lignes des tableaux.
-         */
-
-        let lignes = page.querySelectorAll("tr");
-
-        let lignesTrouvees = [];
-
-        lignes.forEach(function(ligne) {
-
-            let texte = ligne.innerText
-                .replace(/\s+/g, " ")
-                .trim();
-
-            if (
-                texte.length > 0 &&
-                texte.toLowerCase().includes(texteRecherche)
-            ) {
-
-                lignesTrouvees.push(texte);
+                continue;
 
             }
 
-        });
+
+            let html =
+                await reponse.text();
 
 
-        /*
-         * Affichage des lignes trouvées
-         */
-
-        if (lignesTrouvees.length > 0) {
-
-            htmlResultat +=
-                "<div class='resultat-trouve'>" +
-
-                "<a href='resultats/" +
-                annee +
-                ".html'>" +
-
-                "Résultats " +
-                annee +
-
-                "</a>";
+            let page =
+                new DOMParser().parseFromString(
+                    html,
+                    "text/html"
+                );
 
 
-            lignesTrouvees.forEach(function(ligne) {
+            /*
+               Recherche dans les lignes de tableau.
+            */
 
-                total++;
+            let lignes =
+                page.querySelectorAll("tr");
 
-                htmlResultat +=
-                    "<div class='ligne-resultat'>" +
-                    echapperHTML(ligne) +
-                    "</div>";
+
+            let lignesTrouvees = [];
+
+
+            lignes.forEach(function(ligne) {
+
+                let texte =
+                    ligne.innerText.trim();
+
+
+                if (
+                    texte &&
+                    texte
+                        .toLowerCase()
+                        .includes(texteRecherche)
+                ) {
+
+                    lignesTrouvees.push(texte);
+
+                }
 
             });
 
 
-            htmlResultat += "</div>";
+            /*
+               Si aucune ligne de tableau n'est trouvée,
+               on vérifie quand même toute la page.
+            */
+
+            if (lignesTrouvees.length > 0) {
+
+                resultats.push({
+
+                    annee: annee,
+
+                    url:
+                        "resultats/" +
+                        annee +
+                        ".html",
+
+                    lignes:
+                        lignesTrouvees
+
+                });
+
+            }
+
+
+        } catch (erreur) {
+
+            /*
+               Une page absente ou inaccessible
+               est simplement ignorée.
+            */
 
         }
 
-    } catch (erreur) {
-
-        /*
-         * Une page qui ne peut pas être chargée
-         * est simplement ignorée.
-         */
-
     }
 
-}
-
-
-/*
- * Aucun résultat
- */
-
-if (total === 0) {
-
-    affichage.innerHTML =
-        "<p>Aucun résultat trouvé pour « " +
-        echapperHTML(recherche) +
-        " ».</p>";
-
-    return;
-}
-
-
-/*
- * Résultats trouvés
- */
-
-affichage.innerHTML =
-    "<p><strong>" +
-    total +
-    " résultat(s) trouvé(s) pour « " +
-    echapperHTML(recherche) +
-    " » :</strong></p>" +
-
-    htmlResultat;
-```
-
-}
 
     /* -----------------------------------------
-       AFFICHAGE DES RESULTATS
+       AUCUN RESULTAT
        ----------------------------------------- */
 
     if (resultats.length === 0) {
@@ -410,11 +435,26 @@ affichage.innerHTML =
     }
 
 
+    /* -----------------------------------------
+       AFFICHAGE
+       ----------------------------------------- */
+
+    let nombreLignes = 0;
+
+
+    resultats.forEach(function(resultat) {
+
+        nombreLignes +=
+            resultat.lignes.length;
+
+    });
+
+
     let htmlResultat =
 
         "<p><strong>" +
-        resultats.length +
-        " page(s) trouvée(s) pour « " +
+        nombreLignes +
+        " résultat(s) trouvé(s) pour « " +
         echapperHTML(recherche) +
         " » :</strong></p>";
 
@@ -427,43 +467,63 @@ affichage.innerHTML =
 
             "<a href='" +
             resultat.url +
-            "'>" +
+            "' target='_blank'>" +
 
             "Résultats " +
             resultat.annee +
 
-            "</a>" +
+            "</a>";
 
-            "<br>" +
 
-            "Le terme recherché apparaît dans la page." +
+        resultat.lignes.forEach(function(ligne) {
+
+            htmlResultat +=
+
+                "<div class='ligne-resultat'>" +
+
+                echapperHTML(ligne) +
+
+                "</div>";
+
+        });
+
+
+        htmlResultat +=
 
             "</div>";
 
     });
 
 
-    affichage.innerHTML = htmlResultat;
+    affichage.innerHTML =
+        htmlResultat;
 
 }
 
 
 /* -----------------------------------------
-   PROTECTION DU TEXTE AFFICHÉ
+   PROTECTION DU TEXTE
    ----------------------------------------- */
 
 function echapperHTML(texte) {
 
     return texte
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#039;");
 
 }
 
 </script>
 
+
 </body>
+
 </html>
