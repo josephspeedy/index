@@ -9,7 +9,7 @@
 <meta name="viewport"
    content="width=device-width, initial-scale=1.0">
 
-<title>Les courses de Joseph Tringali</title>
+<title>Bienvenue sur le site de Joseph Tringali</title>
 
 <style>
 
@@ -191,7 +191,7 @@ h2 {
 <div class="contenu">
 
 <h1>
-Les courses de Joseph Tringali
+Bienvenue sur le site des résultats de Joseph Tringali
 </h1>
 
 <!-- CHOIX D'UNE ANNEE -->
@@ -261,15 +261,6 @@ Les courses de Joseph Tringali
 ```
 
 </div>
-
-<h2>
-Bienvenue sur le site des résultats de Joseph Tringali
-</h2>
-
-<p>
-Vous pouvez choisir une année ci-dessus pour consulter
-les résultats correspondants.
-</p>
 
 </div>
 
@@ -419,12 +410,6 @@ async function lancerRecherche() {
                     ligne.querySelectorAll("td");
 
 
-                /*
-                   La première ligne du tableau
-                   contient les titres <th>.
-                   On l'ignore.
-                */
-
                 if (cellules.length < 5) {
 
                     return;
@@ -491,12 +476,6 @@ async function lancerRecherche() {
 
 
         } catch (erreur) {
-
-            /*
-               Si une année ne peut pas être
-               chargée, on continue avec
-               l'année suivante.
-            */
 
             continue;
 
@@ -701,5 +680,3 @@ function echapperHTML(texte) {
 </body>
 
 </html>
-
-
