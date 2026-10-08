@@ -283,35 +283,145 @@ function afficherRecherche() {
 
 async function lancerRecherche() {
 
-    let champ =
-        document.getElementById("champRecherche");
+    const recherche =
+        document.getElementById("champRecherche").value.trim();
 
-    let affichage =
+    const affichage =
         document.getElementById("resultatsRecherche");
 
-    let recherche =
-        champ.value.trim();
-
-
     if (recherche.length < 2) {
-
         affichage.innerHTML =
             "<p>Veuillez entrer au moins 2 caractères.</p>";
-
         return;
-
     }
-
 
     affichage.innerHTML =
         "<p class='recherche-attente'>Recherche en cours...</p>";
 
-
-    let texteRecherche =
+    const mot =
         recherche.toLowerCase();
 
-
     let resultats = [];
+
+    for (let annee = 1981; annee <= 2026; annee++) {
+
+        try {
+
+            const reponse =
+                await fetch("resultats/" + annee + ".html");
+
+            if (!reponse.ok) {
+                continue;
+            }
+
+            const texte =
+                await reponse.text();
+
+            const page =
+                new DOMParser().parseFromString(
+                    texte,
+                    "text/html"
+                );
+
+            const lignes =
+                page.querySelectorAll("tr");
+
+            lignes.forEach(function(ligne) {
+
+                const cellules =
+                    ligne.querySelectorAll("td");
+
+                if (cellules.length === 0) {
+                    return;
+                }
+
+                const contenu =
+                    ligne.textContent.trim();
+
+                if (
+                    contenu.toLowerCase().includes(mot)
+                ) {
+
+                    resultats.push({
+                        annee: annee,
+                        date: cellules[0].textContent.trim(),
+                        course: cellules[1].textContent.trim(),
+                        distance: cellules[2].textContent.trim(),
+                        temps: cellules[3].textContent.trim(),
+                        classement: cellules[4].textContent.trim()
+                    });
+
+                }
+
+            });
+
+        } catch (e) {
+
+            continue;
+
+        }
+
+    }
+
+
+    if (resultats.length === 0) {
+
+        affichage.innerHTML =
+            "<p>Aucun résultat trouvé pour « " +
+            echapperHTML(recherche) +
+            " ».</p>";
+
+        return;
+    }
+
+
+    let sortie =
+        "<p><strong>" +
+        resultats.length +
+        " résultat(s) trouvé(s) :</strong></p>";
+
+
+    resultats.forEach(function(r) {
+
+        sortie +=
+            "<div class='resultat-trouve'>" +
+
+            "<a href='resultats/" +
+            r.annee +
+            ".html' target='_blank'>" +
+
+            "<strong>" +
+            r.annee +
+            "</strong>" +
+
+            "</a>" +
+
+            "<div class='ligne-resultat'>" +
+
+            echapperHTML(r.date) +
+            " — " +
+
+            echapperHTML(r.course) +
+            " — " +
+
+            echapperHTML(r.distance) +
+            " — " +
+
+            echapperHTML(r.temps) +
+            " — " +
+
+            echapperHTML(r.classement) +
+
+            "</div>" +
+
+            "</div>";
+
+    });
+
+
+    affichage.innerHTML = sortie;
+
+}
 
 
     /* -----------------------------------------
