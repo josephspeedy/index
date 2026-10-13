@@ -151,25 +151,22 @@ h1 {
 </table>
 <br>
            <div style="margin-left: 30px;"> EN ATTENTE DES RESULTATS... </div>
+
 <script>
-
 function ouvrirAnnee() {
+    const champ = document.getElementById("annee");
+    const annee = Number(champ.value);
 
-    let annee = document.getElementById("annee").value;
-
-    if (annee >= 1981 && annee <= 2026) {
-
+    if (champ.value !== "" && annee >= 1981 && annee <= 2026) {
         window.location.href = annee + ".html";
-
     } else {
-
         alert("Veuillez entrer une année valide entre 1981 et 2026.");
-
     }
-
 }
-
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
