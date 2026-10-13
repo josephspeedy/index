@@ -1,0 +1,504 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bienvenue sur le site de Joseph Tringali</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("images/stevictoire_claire.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #111;
+}
+
+.contenu {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: rgba(255,255,255,0.75);
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+.navigation {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.navigation input {
+    width: 80px;
+    padding: 7px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.navigation button {
+    padding: 7px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.recherche {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.recherche-lien {
+    font-size: 17px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#zoneRecherche {
+    display: none;
+    margin-top: 15px;
+}
+
+#champRecherche {
+    width: 70%;
+    max-width: 500px;
+    padding: 9px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#zoneRecherche button {
+    padding: 9px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#resultatsRecherche {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.resultat-trouve {
+    margin: 15px 0;
+    padding: 12px;
+    background-color: rgba(255,255,255,0.65);
+    border-radius: 6px;
+}
+
+.resultat-trouve a {
+    font-size: 18px;
+}
+
+.ligne-resultat {
+    margin-top: 8px;
+    padding: 8px;
+    background-color: rgba(255,255,255,0.45);
+    border-radius: 5px;
+}
+
+.recherche-attente {
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .contenu {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    #champRecherche {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #zoneRecherche button {
+        margin-top: 5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenu">
+
+<h1>
+Bienvenue sur le site des résultats de Joseph Tringali
+</h1>
+
+<!-- CHOIX D'UNE ANNEE -->
+
+<div class="navigation">
+
+    <label for="annee">Choix de l'année :</label>
+
+    <input
+        type="number"
+        id="annee"
+        min="1981"
+        max="2026"
+        value="2026"
+        onkeydown="if (event.key === 'Enter') ouvrirAnnee();"
+    >
+
+    <button type="button" onclick="ouvrirAnnee()">
+        Valider
+    </button>
+
+</div>
+
+<!-- RECHERCHE AVANCEE -->
+
+<div class="recherche">
+
+    <a
+        href="#"
+        class="recherche-lien"
+        onclick="afficherRecherche(); return false;"
+    >
+        🔎 Recherche avancée sur le site
+    </a>
+
+    <div id="zoneRecherche">
+
+        <form onsubmit="lancerRecherche(); return false;">
+
+            <input
+                type="text"
+                id="champRecherche"
+                placeholder="Ex. : semi, marathon, 10km"
+                autocomplete="off"
+            >
+
+            <button type="submit">
+                Rechercher
+            </button>
+
+        </form>
+
+        <p>
+            Sépare les mots-clés par des virgules.
+            Les courses contenant au moins un des mots seront affichées.
+        </p>
+
+        <div id="resultatsRecherche"></div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+/* -----------------------------------------
+   OUVRIR UNE ANNEE
+   ----------------------------------------- */
+
+function ouvrirAnnee() {
+
+    const champ = document.getElementById("annee");
+    const annee = Number(champ.value);
+
+    if (
+        champ.value !== "" &&
+        Number.isInteger(annee) &&
+        annee >= 1981 &&
+        annee <= 2026
+    ) {
+
+        window.open(
+            "resultats/" + annee + ".html",
+            "_blank"
+        );
+
+    } else {
+
+        alert(
+            "Veuillez entrer une année valide entre 1981 et 2026."
+        );
+
+    }
+
+}
+
+
+/* -----------------------------------------
+   AFFICHER / MASQUER LA RECHERCHE
+   ----------------------------------------- */
+
+function afficherRecherche() {
+
+    const zone = document.getElementById("zoneRecherche");
+
+    if (zone.style.display === "block") {
+
+        zone.style.display = "none";
+
+    } else {
+
+        zone.style.display = "block";
+
+        document.getElementById("champRecherche").focus();
+
+    }
+
+}
+
+
+/* -----------------------------------------
+   RECHERCHE AVANCEE DANS TOUTES LES ANNEES
+   Plusieurs mots-clés séparés par des virgules
+   Logique : mot 1 OU mot 2 OU mot 3
+   ----------------------------------------- */
+
+async function lancerRecherche() {
+
+    const recherche = document
+        .getElementById("champRecherche")
+        .value
+        .trim();
+
+    const affichage = document.getElementById("resultatsRecherche");
+
+    if (recherche.length === 0) {
+
+        affichage.innerHTML =
+            "<p>Veuillez saisir un ou plusieurs mots-clés.</p>";
+
+        return;
+
+    }
+
+    // Découper la saisie selon les virgules.
+    // Ignorer les espaces et les mots vides.
+
+    const mots = [...new Set(
+        recherche
+            .split(",")
+            .map(mot => mot.trim().toLocaleLowerCase("fr"))
+            .filter(mot => mot.length > 0)
+    )];
+
+    if (mots.length === 0) {
+
+        affichage.innerHTML =
+            "<p>Veuillez saisir des mots-clés valides.</p>";
+
+        return;
+
+    }
+
+    if (mots.some(mot => mot.length < 2)) {
+
+        affichage.innerHTML =
+            "<p>Chaque mot-clé doit contenir au moins 2 caractères.</p>";
+
+        return;
+
+    }
+
+    affichage.innerHTML =
+        "<p class='recherche-attente'>Recherche en cours dans les années 1981 à 2026...</p>";
+
+    const resultats = [];
+
+    // Éviter les doublons si une même course correspond
+    // à plusieurs mots-clés.
+
+    const clesResultats = new Set();
+
+    for (let annee = 1981; annee <= 2026; annee++) {
+
+        try {
+
+            const reponse = await fetch(
+                "resultats/" + annee + ".html"
+            );
+
+            if (!reponse.ok) {
+                continue;
+            }
+
+            const html = await reponse.text();
+
+            const page = new DOMParser().parseFromString(
+                html,
+                "text/html"
+            );
+
+            const lignes = page.querySelectorAll("table tr");
+
+            lignes.forEach(function(ligne, indexLigne) {
+
+                const cellules = ligne.querySelectorAll("td");
+
+                // Ignorer les lignes d'en-tête et les lignes incomplètes.
+
+                if (cellules.length < 5) {
+                    return;
+                }
+
+                const texteLigne = ligne.textContent
+                    .trim()
+                    .toLocaleLowerCase("fr");
+
+                // La ligne doit contenir au moins un mot-clé.
+
+                const correspond = mots.some(function(mot) {
+                    return texteLigne.includes(mot);
+                });
+
+                if (!correspond) {
+                    return;
+                }
+
+                const cle = annee + "-" + indexLigne;
+
+                if (clesResultats.has(cle)) {
+                    return;
+                }
+
+                clesResultats.add(cle);
+
+                resultats.push({
+
+                    annee: annee,
+
+                    date: cellules[0].textContent.trim(),
+
+                    course: cellules[1].textContent.trim(),
+
+                    distance: cellules[2].textContent.trim(),
+
+                    temps: cellules[3].textContent.trim(),
+
+                    classement: cellules[4].textContent.trim(),
+
+                    url: "resultats/" + annee + ".html"
+
+                });
+
+            });
+
+        } catch (erreur) {
+
+            // Continuer si un fichier est absent ou inaccessible.
+            continue;
+
+        }
+
+    }
+
+    /* -----------------------------------------
+       AUCUN RESULTAT
+       ----------------------------------------- */
+
+    if (resultats.length === 0) {
+
+        affichage.innerHTML =
+            "<p>Aucun résultat trouvé pour « " +
+            echapperHTML(recherche) +
+            " ».</p>";
+
+        return;
+
+    }
+
+    /* -----------------------------------------
+       AFFICHAGE DES RESULTATS
+       ----------------------------------------- */
+
+    let htmlResultat =
+        "<p><strong>" +
+        resultats.length +
+        " résultat(s) trouvé(s) pour « " +
+        echapperHTML(recherche) +
+        " » :</strong></p>";
+
+    resultats.forEach(function(resultat) {
+
+        htmlResultat +=
+            "<div class='resultat-trouve'>" +
+
+            "<a href='" +
+            echapperHTML(resultat.url) +
+            "' target='_blank' rel='noopener noreferrer'>" +
+
+            "<strong>Résultats " +
+            resultat.annee +
+            "</strong>" +
+
+            "</a>" +
+
+            "<div class='ligne-resultat'>" +
+
+            "<strong>Date :</strong> " +
+            echapperHTML(resultat.date) +
+
+            "<br>" +
+
+            "<strong>Course :</strong> " +
+            echapperHTML(resultat.course) +
+
+            "<br>" +
+
+            "<strong>Distance :</strong> " +
+            echapperHTML(resultat.distance) +
+
+            "<br>" +
+
+            "<strong>Temps :</strong> " +
+            echapperHTML(resultat.temps) +
+
+            "<br>" +
+
+            "<strong>Classement :</strong> " +
+            echapperHTML(resultat.classement) +
+
+            "</div>" +
+
+            "</div>";
+
+    });
+
+    affichage.innerHTML = htmlResultat;
+
+}
+
+
+/* -----------------------------------------
+   PROTECTION DU TEXTE AFFICHE
+   ----------------------------------------- */
+
+function echapperHTML(texte) {
+
+    return String(texte)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
