@@ -155,6 +155,24 @@ h1 {
 
 </table>
 
+     <script>
+function ouvrirAnnee() {
+    const champ = document.getElementById("annee");
+    const annee = Number(champ.value);
+
+    if (champ.value !== "" && Number.isInteger(annee)
+        && annee >= 1981 && annee <= 2026) {
+
+        window.location.href =
+            "https://josephspeedy.github.io/index/resultats/"
+            + annee + ".html";
+
+    } else {
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+    }
+}
+</script>
+
 </body>
 </html>
 ----
