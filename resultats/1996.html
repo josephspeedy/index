@@ -78,6 +78,23 @@ h1 {
 </head>
 
 <body>
+  <br><br>
+    <div class="resultats">
+    <form onsubmit="ouvrirAnnee(); return false;">
+        <strong>Résultats :</strong>
+        <label for="annee">Année :</label>
+        <input
+            type="number"
+            id="annee"
+            name="annee"
+            min="1981"
+            max="2026"
+            value="1990"
+        >
+        <button type="submit">Valider</button>
+    </form>
+</div>
+
 
 <h1>Résultats 1996</h1>
 
@@ -174,6 +191,25 @@ h1 {
 </tr>
 
 </table>
+
+  <script>
+function ouvrirAnnee() {
+    const champ = document.getElementById("annee");
+    const annee = Number(champ.value);
+
+    if (champ.value !== "" && Number.isInteger(annee)
+        && annee >= 1981 && annee <= 2026) {
+
+        window.location.href =
+            "https://josephspeedy.github.io/index/resultats/"
+            + annee + ".html";
+
+    } else {
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+    }
+}
+</script>
+
 
 </body>
 </html>
