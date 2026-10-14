@@ -155,4 +155,24 @@ h1 {
     
     
 </table>
+
+    <script>
+
+function ouvrirAnnee() {
+
+    let annee = document.getElementById("annee").value;
+
+    if (annee >= 1981 && annee <= 2026) {
+
+        window.location.href = annee + ".html";
+
+    } else {
+
+        alert("Veuillez entrer une année valide entre 1981 et 2026.");
+
+    }
+
+}
+
+</script>
 </body>
