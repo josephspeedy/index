@@ -91,7 +91,7 @@ text-align: center;
 
 
 <body>
-
+<br> <br>
     <div class="resultats">
 
     <form onsubmit="ouvrirAnnee(); return false;">
@@ -272,6 +272,18 @@ text-align: center;
 
 
 </table>
+
+<script>
+function ouvrirAnnee() {
+    const annee = document.getElementById("annee").value;
+
+    if (annee >= 1981 && annee <= 2026) {
+        window.location.href = annee + ".html";
+    } else {
+        alert("Veuillez choisir une année entre 1981 et 2026.");
+    }
+}
+</script>
 
 
 </body>
